@@ -135,14 +135,17 @@
               <h2>要求补充</h2>
               <p>告诉 AI 你还想让这条图文具备什么特点、面向谁、想传达什么。</p>
             </div>
-            <textarea
-              id="extra-prompt"
-              class="prompt-box"
-              maxlength="2000"
-              placeholder="你可以在这里描述你的图文目标，例如：帮我做一篇适合小红书发布的春夏通勤穿搭笔记，语气自然、真实、有分享感。"
-            ></textarea>
+            <div class="prompt-field">
+              <textarea
+                id="extra-prompt"
+                class="prompt-box"
+                maxlength="2000"
+                placeholder="你可以在这里描述你的图文目标，例如：帮我做一篇适合小红书发布的春夏通勤穿搭笔记，语气自然、真实、有分享感。"
+              ></textarea>
+              <button class="inspiration-btn" id="inspiration-btn" type="button">灵感</button>
+              <span class="prompt-count" id="prompt-count">0/2000</span>
+            </div>
             <div class="prompt-foot">
-              <span id="prompt-count">0/2000</span>
               <button class="primary-btn" id="generate-btn">生成图文</button>
             </div>
           </section>
