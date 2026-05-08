@@ -1,0 +1,8 @@
+{
+  "model": "doubao-seedream-5-0-lite-260128",
+  "prompt": "高级小红书模板封面图，赛博霓虹时尚摄影，一位女性穿黑色造型和红色头巾，灰白背景中带少量红色霓虹边缘光，酷感、干净、时髦，高级视觉冲击，适合创意潮流模板封面，无文字，无水印，无logo，竖版封面构图",
+  "size": "1536x2560",
+  "response_format": "url",
+  "watermark": false,
+  "stream": false
+}

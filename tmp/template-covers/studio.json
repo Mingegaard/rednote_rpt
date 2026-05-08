@@ -1,0 +1,8 @@
+{
+  "model": "doubao-seedream-5-0-lite-260128",
+  "prompt": "高级小红书模板封面图，极简棚拍美妆时尚大片，一位女性穿浅蓝牛仔造型站在米色背景前，柔和棚拍光，干净留白，质感高级，适合单品展示和美妆模板封面，无文字，无水印，无logo，竖版封面构图",
+  "size": "1536x2560",
+  "response_format": "url",
+  "watermark": false,
+  "stream": false
+}

@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>小红书 AI 图文助手 Demo</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <img class="brand-capsule" src="./assets/xhs-logo-capsule.png" alt="小红书" />
+          <span class="brand-title">创作服务平台</span>
+        </div>
+
+        <button class="publish-entry">
+          <span class="icon-box">+</span>
+          <span>发布笔记</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </button>
+
+        <nav class="nav-list">
+          <button class="nav-item" data-icon="home">首页</button>
+          <button class="nav-item" data-icon="note">笔记管理</button>
+          <button class="nav-item" data-icon="chart">数据看板</button>
+          <button class="nav-item" data-icon="flag">活动中心</button>
+          <button class="nav-item" data-icon="spark">笔记灵感</button>
+          <button class="nav-item" data-icon="school">创作学院</button>
+          <button class="nav-item" data-icon="book">创作百科</button>
+        </nav>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div class="tabs">
+            <button class="tab muted">上传视频</button>
+            <button class="tab muted">上传图文</button>
+            <button class="tab muted">写长文</button>
+            <button class="tab active">AI图文助手</button>
+          </div>
+          <div class="user-badge">
+            <img class="avatar" src="./assets/napoli-avatar.png" alt="拿坡里" />
+            <span>高铭泽</span>
+          </div>
+        </header>
+
+        <section class="page" id="route-create">
+          <div class="tool-switch">
+            <button class="tool-card selected" data-route="create">
+              <img src="./assets/tool-create.png" alt="创作工具" />
+            </button>
+            <button class="tool-card" data-route="queue">
+              <img src="./assets/tool-queue.png" alt="队列工具" />
+            </button>
+          </div>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>上传素材</h2>
+              <p>请上传用于 AI 生成的素材，以便更好理解你的诉求并还原风格。</p>
+            </div>
+            <button class="accordion" id="asset-tips-toggle" aria-expanded="false" aria-controls="asset-tips">
+              <img class="accordion-icon" src="./assets/material-tip-icon.png" alt="" />
+              <span class="accordion-title">什么是好的素材？</span>
+              <span class="accordion-muted">展开查看最佳的素材案例</span>
+              <span class="accordion-arrow">⌄</span>
+            </button>
+            <div class="asset-tips hidden" id="asset-tips">
+              <div class="asset-tip-row">
+                <article class="asset-tip-card">
+                  <img class="asset-tip-image" src="./assets/tip-product-front.png" alt="正面产品示例" />
+                  <img class="asset-tip-status" src="./assets/info-success.png" alt="" />
+                  <p>展示产品正面</p>
+                </article>
+                <article class="asset-tip-card">
+                  <img class="asset-tip-image" src="./assets/tip-model-interaction.png" alt="模特与产品互动示例" />
+                  <img class="asset-tip-status" src="./assets/info-success.png" alt="" />
+                  <p>展示模特与产品互动</p>
+                </article>
+                <article class="asset-tip-card">
+                  <img class="asset-tip-image" src="./assets/tip-product-angle.png" alt="产品多角度示例" />
+                  <img class="asset-tip-status" src="./assets/info-success.png" alt="" />
+                  <p>展示多个角度</p>
+                </article>
+                <article class="asset-tip-card">
+                  <img class="asset-tip-image" src="./assets/tip-product-detail.png" alt="产品细节示例" />
+                  <img class="asset-tip-status" src="./assets/info-success.png" alt="" />
+                  <p>展示产品细节</p>
+                </article>
+                <article class="asset-tip-card">
+                  <img class="asset-tip-image" src="./assets/tip-picture-in-picture.png" alt="画中画反例" />
+                  <img class="asset-tip-status" src="./assets/info-error.png" alt="" />
+                  <p>避免画中画</p>
+                </article>
+                <article class="asset-tip-card">
+                  <img class="asset-tip-image" src="./assets/tip-collage.png" alt="拼贴反例" />
+                  <img class="asset-tip-status" src="./assets/info-error.png" alt="" />
+                  <p>避免拼贴或多个模特</p>
+                </article>
+                <article class="asset-tip-card">
+                  <img class="asset-tip-image" src="./assets/tip-text-overlay.png" alt="文字叠加反例" />
+                  <img class="asset-tip-status" src="./assets/info-error.png" alt="" />
+                  <p>避免文字或图层叠加</p>
+                </article>
+              </div>
+            </div>
+            <div class="upload-grid">
+              <label class="upload-drop">
+                <input id="reference-upload" type="file" accept="image/*" multiple />
+                <img class="upload-icon" src="./assets/upload-icon.png" alt="" />
+                <div class="upload-title">本地上传</div>
+                <div class="upload-meta">图片 · 500MB MAX</div>
+                <div class="upload-meta">格式: JPG, JPEG, PNG</div>
+              </label>
+              <div class="reference-gallery" id="reference-gallery"></div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>选择参考风格</h2>
+              <p>选择一个合适的模版来模拟你喜欢的账号表达方式和图片质感。</p>
+            </div>
+            <div class="template-toggle">
+              <button class="toggle-pill active">使用模版</button>
+              <button class="toggle-pill">模仿账号</button>
+            </div>
+            <div class="template-row" id="template-row"></div>
+            <button class="template-market">模版广场</button>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>要求补充</h2>
+              <p>告诉 AI 你还想让这条图文具备什么特点、面向谁、想传达什么。</p>
+            </div>
+            <textarea
+              id="extra-prompt"
+              class="prompt-box"
+              maxlength="2000"
+              placeholder="你可以在这里描述你的图文目标，例如：帮我做一篇适合小红书发布的春夏通勤穿搭笔记，语气自然、真实、有分享感。"
+            ></textarea>
+            <div class="prompt-foot">
+              <span id="prompt-count">0/2000</span>
+              <button class="primary-btn" id="generate-btn">生成图文</button>
+            </div>
+          </section>
+        </section>
+
+        <section class="page hidden" id="route-queue">
+          <div class="tool-switch">
+            <button class="tool-card" data-route="create">
+              <img src="./assets/tool-create.png" alt="创作工具" />
+            </button>
+            <button class="tool-card selected" data-route="queue">
+              <img src="./assets/tool-queue.png" alt="队列工具" />
+            </button>
+          </div>
+
+          <section class="panel queue-panel">
+            <table class="queue-table">
+              <thead>
+                <tr>
+                  <th>素材</th>
+                  <th>状态</th>
+                  <th>生成开始时间</th>
+                  <th>动作</th>
+                </tr>
+              </thead>
+              <tbody id="queue-body"></tbody>
+            </table>
+          </section>
+        </section>
+
+        <section class="page hidden" id="route-publish">
+          <div class="publish-layout">
+            <div class="publish-main">
+              <section class="panel publish-panel">
+                <div class="publish-panel-head">
+                  <h2>图片编辑 <span id="publish-count">0/18</span></h2>
+                  <button class="ghost-chip cover-chip">
+                    <img class="ai-chip-icon" src="./assets/ai-cover-suggest.png" alt="" />
+                    获取封面建议
+                  </button>
+                </div>
+                <div class="publish-image-strip">
+                  <label class="publish-add-card">
+                    <input id="publish-upload" type="file" accept="image/*" multiple />
+                    <span>+</span>
+                  </label>
+                  <div class="publish-thumbs" id="publish-thumbs"></div>
+                </div>
+              </section>
+
+              <section class="panel publish-panel">
+                <div class="publish-title-row">
+                  <input id="title-input" class="title-input" maxlength="30" placeholder="填写标题会有更多赞哦" />
+                  <button class="ghost-chip title-chip" id="regen-title-btn">
+                    <img class="ai-chip-icon" src="./assets/ai-title-icon.png" alt="" />
+                    智能标题
+                    <span class="mini-chevron" aria-hidden="true"></span>
+                  </button>
+                </div>
+                <textarea
+                  id="content-input"
+                  class="content-input"
+                  maxlength="1000"
+                  placeholder="输入正文描述，真诚有价值的分享更容易被看见"
+                ></textarea>
+                <div class="chips">
+                  <button class="chip">#画手</button>
+                  <button class="chip">#画画素材</button>
+                  <button class="chip">#突破次元壁手指</button>
+                  <button class="chip">#让画动起来</button>
+                  <button class="chip">更多 ⌄</button>
+                </div>
+                <div class="chips chips-bottom">
+                  <button class="chip"># 话题</button>
+                  <button class="chip">@ 用户</button>
+                  <button class="chip">☺ 表情</button>
+                </div>
+                <div class="content-count" id="content-count">0/1000</div>
+              </section>
+
+              <section class="panel info-panel">
+                <div class="section-title-row">
+                  <h3>活动话题</h3>
+                  <button class="plain-link">更多 ›</button>
+                </div>
+                <div class="topic-grid">
+                  <div class="topic-card">
+                    <img class="topic-cover" src="./assets/topic-red.png" alt="" />
+                    <div class="topic-copy">
+                      <div class="topic-title"># RED新生代创作大赛</div>
+                      <div class="topic-meta"><span>⊕ 添加话题</span><span>活动详情 ›</span></div>
+                    </div>
+                  </div>
+                  <div class="topic-card">
+                    <img class="topic-cover" src="./assets/topic-shanghai.png" alt="" />
+                    <div class="topic-copy">
+                      <div class="topic-title"># 第七届上海创新创业青年50人论坛</div>
+                      <div class="topic-meta"><span>⊕ 添加话题</span><span>活动详情 ›</span></div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="panel info-panel">
+                <div class="section-title-row">
+                  <h3>内容设置</h3>
+                  <button class="plain-link">收起 ︿</button>
+                </div>
+                <div class="setting-card hero-setting">
+                  <span class="setting-icon" data-setting-icon="collection" aria-hidden="true"></span>
+                  <div class="setting-copy">
+                    <div class="setting-title">加入合集</div>
+                    <div class="setting-desc">汇集系列视频，有利于连续性观看</div>
+                  </div>
+                  <button class="secondary-text">
+                    <span class="setting-icon tiny" data-setting-icon="collection" aria-hidden="true"></span>
+                    创建合集
+                  </button>
+                </div>
+                <div class="setting-grid">
+                  <button class="setting-card setting-option">
+                    <span class="setting-copy"><span class="setting-icon" data-setting-icon="shield" aria-hidden="true"></span>原创声明</span>
+                    <span class="toggle"></span>
+                  </button>
+                  <button class="setting-card setting-option">
+                    <span class="setting-copy"><span class="setting-icon" data-setting-icon="megaphone" aria-hidden="true"></span>添加内容类型声明</span>
+                    <span>⌄</span>
+                  </button>
+                </div>
+                <h4 class="subheading">添加组件</h4>
+                <div class="setting-grid">
+                  <button class="setting-card setting-option">
+                    <span class="setting-copy"><span class="setting-icon" data-setting-icon="pin" aria-hidden="true"></span>添加地点</span>
+                    <span>⌄</span>
+                  </button>
+                  <button class="setting-card setting-option">
+                    <span class="setting-copy"><span class="setting-icon" data-setting-icon="group" aria-hidden="true"></span>选择群聊</span>
+                    <span>⌄</span>
+                  </button>
+                  <button class="setting-card setting-option">
+                    <span class="setting-copy"><span class="setting-icon" data-setting-icon="tag" aria-hidden="true"></span>标记地点或标记朋友</span>
+                    <span>›</span>
+                  </button>
+                  <button class="setting-card setting-option">
+                    <span class="setting-copy"><span class="setting-icon" data-setting-icon="route" aria-hidden="true"></span>添加路线</span>
+                    <span>›</span>
+                  </button>
+                  <button class="setting-card setting-option">
+                    <span class="setting-copy"><span class="setting-icon" data-setting-icon="paperclip" aria-hidden="true"></span>选择文件</span>
+                    <span>›</span>
+                  </button>
+                </div>
+              </section>
+
+              <section class="panel info-panel">
+                <div class="section-title-row">
+                  <h3>更多设置</h3>
+                  <button class="plain-link">收起 ︿</button>
+                </div>
+                <div class="setting-grid">
+                  <button class="setting-card setting-option">
+                    <span class="setting-copy"><span class="setting-icon" data-setting-icon="camera" aria-hidden="true"></span>允许合拍</span>
+                    <span class="toggle on"></span>
+                  </button>
+                  <button class="setting-card setting-option">
+                    <span class="setting-copy"><span class="setting-icon" data-setting-icon="copy" aria-hidden="true"></span>允许正文复制</span>
+                    <span class="toggle on"></span>
+                  </button>
+                  <button class="setting-card setting-option">
+                    <span class="setting-copy"><span class="setting-icon" data-setting-icon="public" aria-hidden="true"></span>公开可见</span>
+                    <span>⌄</span>
+                  </button>
+                  <button class="setting-card setting-option">
+                    <span class="setting-copy"><span class="setting-icon" data-setting-icon="clock" aria-hidden="true"></span>定时发布</span>
+                    <span class="toggle"></span>
+                  </button>
+                </div>
+              </section>
+
+              <div class="publish-actions">
+                <button class="secondary-btn" id="save-draft-btn">暂存离开</button>
+                <button class="primary-btn large" id="publish-btn">发布</button>
+              </div>
+            </div>
+
+            <aside class="phone-preview">
+              <div class="preview-tabs">
+                <button class="preview-tab active">笔记预览</button>
+                <button class="preview-tab">封面预览</button>
+              </div>
+              <div class="phone-frame">
+                <div class="phone-screen">
+                  <div class="phone-top">
+                    <div class="phone-user">
+                      <img class="avatar small" src="./assets/napoli-avatar.png" alt="拿坡里" />
+                      <span>高铭泽</span>
+                    </div>
+                    <div class="phone-follow">关注</div>
+                  </div>
+                  <div class="phone-image" id="phone-image"></div>
+                  <div class="phone-title" id="phone-title"></div>
+                  <div class="phone-content" id="phone-content"></div>
+                  <div class="phone-actions">♡ 点赞　☆ 收藏　💬 评论</div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="modal-backdrop hidden" id="review-loading-modal">
+      <div class="modal loading-modal" role="status" aria-live="polite">
+        <div class="loading-spinner" aria-hidden="true"></div>
+        <div class="loading-text">请稍等...</div>
+      </div>
+    </div>
+
+    <div class="modal-backdrop hidden" id="review-modal">
+      <div class="modal review-result-modal">
+        <div class="modal-title-row">
+          <img class="modal-icon" src="./assets/review-tip-icon.png" alt="" />
+          <h3>审核提示</h3>
+        </div>
+        <p class="modal-main-text">您的帖子命中以下审核风险，可能导致限流或封禁：</p>
+        <ul class="modal-list" id="review-list"></ul>
+        <div class="modal-actions">
+          <button class="secondary-btn" id="modal-feedback">审核错误反馈</button>
+          <button class="secondary-btn" id="modal-cancel">暂存离开</button>
+          <button class="primary-btn" id="modal-confirm">发布</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast hidden" id="toast"></div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

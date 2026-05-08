@@ -1,0 +1,8 @@
+{
+  "model": "doubao-seedream-5-0-lite-260128",
+  "prompt": "高级小红书模板封面图，清爽街头休闲穿搭摄影，一位年轻女性在蓝天和现代建筑旁自然摆拍，米色风衣、白色内搭，明亮通透，高级杂志感，干净构图，适合时尚穿搭模板封面，无文字，无水印，无logo，竖版封面构图",
+  "size": "1536x2560",
+  "response_format": "url",
+  "watermark": false,
+  "stream": false
+}

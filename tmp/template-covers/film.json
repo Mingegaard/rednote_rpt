@@ -1,0 +1,8 @@
+{
+  "model": "doubao-seedream-5-0-lite-260128",
+  "prompt": "高级小红书模板封面图，复古胶片风生活方式摄影，一位女性披着牛仔外套坐在暖色室内，柔和自然光，轻微胶片颗粒，松弛真实，高级感，适合生活记录模板封面，无文字，无水印，无logo，竖版封面构图",
+  "size": "1536x2560",
+  "response_format": "url",
+  "watermark": false,
+  "stream": false
+}
